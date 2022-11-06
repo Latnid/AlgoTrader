@@ -14,8 +14,12 @@ def get_data(type,Symbol,timeframe,start = None,end = None):
     if end != None:
         end = pd.Timestamp(end, tz="America/New_York").isoformat()
     # Request data.
+    print(f'requesting {Symbol} data')
     data_df = paper_api.get_bars(Symbol,timeframe,start,end).df
     #Convert received data time zone the same as WallStreet
     data_df.index = data_df.index.tz_convert('America/New_York')
+    # drop NA
+    data_df = data_df.dropna()
+    # show success retrieved data message.
     print(f'{Symbol} data was retrieved successfully')
     return data_df
