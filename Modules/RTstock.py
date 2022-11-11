@@ -12,16 +12,16 @@ SECRET_KEY = Authorization.ALPACA_SECRET_KEY
 # Connect DataBase
 con,cur = connect_data_base()
 # prepare table_name as today's date
-quote_table_name = "stock_quote_" + datetime.date.today().strftime('%Y_%m_%d')
-trade_table_name = "stock_trade_" + datetime.date.today().strftime('%Y_%m_%d')
-bar_table_name = "stock_bar_" + datetime.date.today().strftime('%Y_%m_%d')
+quote_table_name =  "_" + datetime.date.today().strftime('%Y_%m_%d')+ "_stock_quote"
+trade_table_name = "_"  + datetime.date.today().strftime('%Y_%m_%d')+ "_stock_trade"
+bar_table_name =  "_"  + datetime.date.today().strftime('%Y_%m_%d') + "_stock_bar"
 # Create table if not esists,
 cur.execute(
     "CREATE TABLE IF NOT EXISTS %s (symbol TEXT, time TIMESTAMPTZ, type TEXT, ask NUMERIC,\
-    ask_size NUMERIC, bid NUMERIC, bid_size NUMERIC);" %quote_table_name)
+    ask_size NUMERIC, ask_exchange TEXT, bid NUMERIC, bid_size NUMERIC, bid_exchange TEXT, quote_condition TEXT, tape TEXT);" %quote_table_name)
 cur.execute(
-    "CREATE TABLE IF NOT EXISTS %s (symbol TEXT, time TIMESTAMPTZ, type TEXT, id NUMERIC,\
-    price NUMERIC, size NUMERIC, side TEXT);" %trade_table_name)
+    "CREATE TABLE IF NOT EXISTS %s (symbol TEXT, time TIMESTAMPTZ, type TEXT, id NUMERIC, exchange TEXT,\
+    price NUMERIC, size NUMERIC,trade_condition TEXT, tape TEXT);" %trade_table_name)
 cur.execute(
     "CREATE TABLE IF NOT EXISTS %s (symbol TEXT, time TIMESTAMPTZ, type TEXT, close NUMERIC,\
      high NUMERIC, low NUMERIC,open NUMERIC, trade NUMERIC, volume NUMERIC, vwap NUMERIC);" %bar_table_name)
@@ -52,11 +52,16 @@ while True:
         Type = data[0]['T']
         Ask = data[0]['ap']
         Ask_size = data[0]['as']
+        Ask_exchange = data[0]['ax']
         Bid = data[0]['bp']
         Bid_size = data[0]['bs']
+        Bid_exchange = data[0]['bx']
         Time = data[0]['t']
-        cur.execute("INSERT INTO {} (symbol, Time, Type, Ask, Ask_size, Bid, Bid_size) VALUES (%s, %s, %s, %s, %s, %s, %s)".format(quote_table_name),
-        (Symbol, Time, Type, Ask, Ask_size, Bid, Bid_size))
+        Quote_condition = data[0]['c']
+        Tape = data[0]['z']
+
+        cur.execute("INSERT INTO {} (symbol, Time, Type, Ask, Ask_size,Ask_exchange, Bid, Bid_size, bid_exchange, quote_condition, tape) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(quote_table_name),
+        (Symbol, Time, Type, Ask, Ask_size, Ask_exchange, Bid, Bid_size, Bid_exchange, Quote_condition, Tape))
         # excute query
         con.commit()
     
@@ -64,13 +69,15 @@ while True:
         Symbol = data[0]['S']
         Type = data[0]['T']
         Trade_id = data[0]['i']
+        Exchange = data[0]['x']
         Trade_price = data[0]['p']
         Trade_size = data[0]['s']
-        Taker_side  = data[0]['tks']
+        Trade_condition  = data[0]['c']
         Time = data[0]['t']
+        Tape = data[0]['z']
         # Insert all data to database and excute.  
-        cur.execute("INSERT INTO {} (symbol, time, type, id, price, size, side) VALUES (%s, %s, %s, %s, %s, %s, %s)".format(trade_table_name),
-        (Symbol, Time, Type, Trade_id, Trade_price, Trade_size, Taker_side))
+        cur.execute("INSERT INTO {} (symbol, time, type, id, exchange, price, size, trade_condition, tape) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)".format(trade_table_name),
+        (Symbol, Time, Type, Trade_id, Exchange, Trade_price, Trade_size, Trade_condition,Tape))
         con.commit()
         
     elif data[0]['T'] == 'b':
