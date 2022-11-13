@@ -5,16 +5,17 @@ from dash import dash_table
 import pandas as pd
 from ConnectDB import *
 import warnings
-
+from RTdata import get_data
 from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 warnings.filterwarnings("ignore")
 
 con,cur = connect_data_base()
 app = dash.Dash(__name__)
-cur.execute("SELECT * FROM cryptodata_2022_11_10 ORDER BY timestamp DESC LIMIT 60")
-tupples = cur.fetchall()
-df = pd.DataFrame(data=tupples, columns=['symbol', 'timestamp', 'open', 'high', 'low', 'close', 'volume', 'trade_count', 'vwap'])
+# cur.execute("SELECT * FROM _2022_11_11_stock_quote ORDER BY time DESC LIMIT 60")
+# tupples = cur.fetchall()
+# df = pd.DataFrame(data=tupples, columns=['symbol', 'time', 'type', 'ask', 'ask_size','ask_exchange', 'aid', 'aid_size', 'bid_exchange', 'quote_condition', 'tape'])
+df = get_data('crypto_bar')
 
 app.layout = html.Div([
     html.H4('Dashboard'),
@@ -34,9 +35,11 @@ app.layout = html.Div([
 def updateTable(n):
     """ Query database 
     """
-    cur.execute("SELECT * FROM cryptodata_2022_11_10 ORDER BY timestamp DESC LIMIT 60")
-    tupples = cur.fetchall()
-    df = pd.DataFrame(data=tupples, columns=['symbol', 'timestamp', 'open', 'high', 'low', 'close', 'volume', 'trade_count', 'vwap'])
+    # con,cur = connect_data_base()
+    # cur.execute("SELECT * FROM _2022_11_11_stock_quote ORDER BY time DESC LIMIT 60")
+    # tupples = cur.fetchall()
+    # df = pd.DataFrame(data=tupples, columns=['symbol', 'time', 'type', 'ask', 'ask_size','ask_exchange', 'aid', 'aid_size', 'bid_exchange', 'quote_condition', 'tape'])
+    df = get_data('crypto_bar')
     return df.to_dict('records')
 #Input("ticker", "value"))
 
@@ -44,10 +47,12 @@ def updateTable(n):
     Output("time-series-chart", "figure"),
     Input("time-series-update", "n_intervals"))
 def display_time_series(n):
-    cur.execute("SELECT * FROM cryptodata_2022_11_10 ORDER BY timestamp DESC LIMIT 60")
-    tupples = cur.fetchall()
-    df = pd.DataFrame(data=tupples, columns=['symbol', 'timestamp', 'open', 'high', 'low', 'close', 'volume', 'trade_count', 'vwap']) # replace with your own data source
-    fig = px.line(df, x='timestamp', y=df['close'])
+    # cur.execute("SELECT * FROM _2022_11_11_stock_quote ORDER BY time DESC LIMIT 60")
+    # tupples = cur.fetchall()
+    # df = pd.DataFrame(data=tupples, columns=['symbol', 'time', 'type', 'ask', 'ask_size','ask_exchange', 'aid', 'aid_size', 'bid_exchange', 'quote_condition', 'tape']) # replace with your own data source
+    
+    df = get_data('crypto_bar')
+    fig = px.line(df, x='time', y=df['close'])
     return fig
 
 if __name__ == '__main__':
