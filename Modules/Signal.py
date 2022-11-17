@@ -2,10 +2,13 @@ from RTdata import get_data
 from indicators import add_indicators
 from Trade import go_long, go_short
 import time
+from ConnectDB import *
 
+# Connect postgresql
+con,cur = connect_data_base()
 # Create data acquire function:
 def clean_data():
-    data_df = get_data('crypto_bar')
+    data_df = get_data(cur=cur, data_type="crypto_bar")
     # Set 'time' index
     data_index_df = data_df.set_index('time')
 
@@ -54,7 +57,7 @@ def trade_condition_check(qty):
                         print('Trade placed')
                         break
         else:
-            print(f"***Monitoring the trade condition***\n"
+            print(f"***Monitoring trade condition***\n"
                   f"Ticker: {data_indicators_df['symbol'][0]}\n"
                   f"Close: {data_indicators_df['close'][0]}\n"
                   f"High: {data_indicators_df['high'][0]}\n"
@@ -67,7 +70,7 @@ def trade_condition_check(qty):
                  )
 
             
-        time.sleep(60)
+        time.sleep(30)
 
 if __name__ == "__main__":
     trade_condition_check(1.01)

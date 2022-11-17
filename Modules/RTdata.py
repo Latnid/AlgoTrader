@@ -5,24 +5,45 @@ import pytz
 import pandas as pd
 
 # Check database connection,if not connected, connect it.
-try:
-    con
-except NameError:
-    # Connect to database
-    con,cur = connect_data_base()
-    print('Initial connection to PostgreSQL DataBase')
-    print(con.closed)
-else:
-    if con.closed !=0:
-    # Connect to database
-        con,cur = connect_data_base()
-        print('Reconnected to PostgreSQL DataBase')
-    else:
-        print(f'PostgreSQL DataBase connection is normal.{con.closed}')
+# try:
+#     con
+# except NameError:
+#     # Connect to database
+#     con,cur = connect_data_base()
+#     print('Initial connection to PostgreSQL DataBase')
+#     print(con.closed)
+# else:
+#     if con.closed !=0:
+#     # Connect to database
+#         con,cur = connect_data_base()
+#         print('Reconnected to PostgreSQL DataBase')
+#     else:
+#         print(f'PostgreSQL DataBase connection is normal.{con.closed}')
 
+# def sql_connection_keeper():
+# # Check database connection,if not connected, connect it.
+#     try:
+#         con
+#     except NameError:
+#         # Connect to database
+#         con,cur = connect_data_base()
+#         print('Initial connection to PostgreSQL DataBase')
+#         print(con.closed)
+#         return con,cur
+#     else:
+#         if con.closed !=0:
+#         # Connect to database
+#             con,cur = connect_data_base()
+#             print('Reconnected to PostgreSQL DataBase')
+#             return con,cur
+#         else:
+#             print(f'PostgreSQL DataBase connection is normal.{con.closed}')
+            
+
+    
 # Fuction for acquiring data from database.
-def get_data(data_type = 'stock_bar'):
-    con,cur = connect_data_base()    
+def get_data(cur, data_type: str = 'stock_bar'):
+    
     # acquire wall street date
     def get_wall_street_date():
         """

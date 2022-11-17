@@ -1,61 +1,92 @@
 # Algotrader (Trader assistant tool)
-This tool is created inorder to assist advanced traders with mature strategies. Which including long term trend and short term trade management. With this tool, traders can have a settle mindset and prediction of future and able to plan for the strategies. With a mature strategy, this tool can stand watch for traders. Thanks to the hard work and free data API providers, this tool can provide realtime data collection,realtime data analysis, and realtime trade signal monitoring. This tool has utilized Prophet, SVM,Logistic Regression and LTSM combined with technical indicators and cash flow as analyzing methods. Base on a local PostgreSql server, this tool have been tested runing over 24 hours non stop. Last but not least, this tool is not only support for stocks market and also fit for crypto market. Since crtpto market opens 24 hours a day, most of the realtime data realted function was test under crypto.
+
+This tool was created to assist advanced traders with mature strategies, including long-term trends and short-term trade management. With this tool, traders can have a settled mindset, predict the future, and plan for strategies. With a mature strategy, this tool can be used to watch for traders. This tool can provide real-time data collection, analysis, and trade signal monitoring. Thanks to free API providers. This tool has utilized Prophet, SVM, Logistic Regression, and LTSM combined with technical indicators and cash flow as analysis methods. Based on a local PostgreSQL server, this tool has been tested for over 24 hours non-stop. Last but not least, this tool supports the stock market and fits the crypto market. Since the crypto market is open 24 hours a day, most real-time data-related functions were tested in crypto.
 
 # features
 * Realtime data collection
   
-    RTstream : Realtime API, get realtime stock bar from alpaca.
+   - RTstream : Realtime API, get the real-time stock bar from alpaca.
 
-    RTdata : pull data from local PostgreSql realtime database, and return clean dataframe.
+   - RTdata : pull data from local PostgreSql real-time database, and return clean data frame.
 
-    RTstock: fast way acquire stock bar,quote and trades at the same time and insert them into local PostgreSql realtime database.
+   - RTstock: fast way to acquire stock bars, quotes, and trades simultaneously and insert them into the local PostgreSQL real-time database.
 
-    RTcrypto: the same as RTstock but in crypto.
+   - RTcrypto: the same as stock but in crypto.
 
     ![RTSHOW](Data/RTshow.gif)
+    
 
 * History data collection
-* 
-    Authorization: Onestep api access authorized way, can switch between data only or trading access.
 
-    CleanData: Onestep cleandata and tranfer timezone as same as wallstreet(America/NewYork)
+   - Authorization: Onestep API access authorized way, can switch between data only or trading access.
+
+   - CleanData: Onestep clean data and transfer timezone as same as Wallstreet(America/NewYork)
 
     ![CleanData](Data/CleanData.png)
 
 * Database
-    ConnectDB: Onestep connect to local PostgreSql database. 
+   - ConnectDB: Onestep connect to the local PostgreSQL database. 
 
 * virtualization
-    Dash: dispaly realtime data and chart as a webpage
+  
+   - Dash: display real-time data and chart as a webpage
+
+    ![RTSHOW2](Data/RTshow2.gif)
+
 * Trade
-    indicators: Onestep indicators calculator,return combined dataframe.
-    Trade: Onestep go long or short bracket orders placer
-    Signal: realtime data monitoring with pre set strategies.
-    Backtest: strategy filled with history data, strategy evaluator(Logistic Regression created in 'daytrade_models folder' ,can use as a entry point condition checker)
+  
+   - indicators: Onestep indicators calculator, return combined data frame.
+
+   - Trade: Onestep go long or short bracket orders placer
+    
+    ![Trade](Data/Trade.png)
+  
+   - Signal: real-time data monitoring with pre-set strategies.
+  
+    ![Signal](Data/Signal.png)
+
+   - Backtest: strategy filled with historical data, strategy evaluator(Logistic Regression created in 'daytrade_models folder,' can use as a entry point condition checker)
+  
+    ![Backtest](Data/Backtest.png)
 
 *  Analysis and Machine Learning included
   
-    LSTM: connect long term history and trained a module for long term price prediction purpose.(module save in 'lstm_models' folder)
+   - LSTM: Fit with history and train a module for long-term price prediction purposes. (module saved in 'lstm_models' folder)
 
     ![LSTM](Data/LSTM.png)
 
-    ML_SVM: Input daily high and low data,trained a module to predict daily high and low purpose.
+   - ML_SVM: Input daily high and low data, trained a module to predict daily high and low purpose.
 
     ![SVM](Data/SVM.png)
     
-    prophet: timeseries price predication,next day chart protection.
+- prophet: price prediction over time, next-day chart prediction
 
-    ![SVM](Data/Prophet.png)
+    ![Prophet](Data/Prophet.png)
     
-    LvsS: history or realtime data bullish or bearlish money flow comparation tool. (can use as a entry point condition checker)
+LvsS: A tool for comparing bullish and bearish money flows in historical or real-time data. (can use as an entry point condition checker)
     
-    ![SVM](Data/LvsS.png)
+   ![LvsS](Data/LvsS.png)
+
+# Consclusion:
+ 
+   Machine Learning can help with trade, but the best, for now, is to treat it as an assistant. For example, all the entry points created by the signal can be further filtered out by a machine-learning model.
+
+   Use left-side columns as features and the result as the target.
+
+   ![LR1](Data/LR1.png)
+
+The model successfully identified the loss trade, so I will only conduct the "profit" trade to increase the profit rate.
+
+   ![LR2](Data/LR2.png)
+
+   ![LR3](Data/LR3.png)
+
 
 ---
 
 Installation Guide
 
-Install the app's dependencies first. Refer to the imported libraries. For example: use 'pip install'as follow:
+Install the app's dependencies first.The "detail listing" refers to the imported libraries from each file. For example, use ''pip installs" as follows:
 
 ```
   pip install pandas
@@ -68,26 +99,24 @@ Install the app's dependencies first. Refer to the imported libraries. For examp
 
 # Useage
 
-Download all the requirement data and creat local postgresql database
+Download all the required data and create a local PostgreSQL database
 
-Run the any .ipynb with jupyter notebook or jupyter lab.
+Run any .ipynb with Jupiter notebook or Jupyter Lab.
 
-use command line to run any .py files
-
-
-```
+Use the command line to run any .py files.
 
 ---
 
-## Contributors
+# Appreciation
 
-FinTech Team
-Dash - Scott
+FinTech Team Instructor - Tuncay E. Dogan
+
+Special thanks： Dash Panel - FinTech Team TA -  Scott Ferguson
 
 
 ---
 
-## License
+# License
 
 [MIT](https://choosealicense.com/licenses/mit/)
   

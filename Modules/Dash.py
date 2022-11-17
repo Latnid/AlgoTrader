@@ -9,6 +9,8 @@ from RTdata import get_data
 from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 warnings.filterwarnings("ignore")
+import plotly.graph_objects as go
+
 
 # def sql_connection_keeper():
 # # Check database connection,if not connected, connect it.
@@ -28,13 +30,14 @@ warnings.filterwarnings("ignore")
 #             return con,cur
 #         else:
 #             print(f'PostgreSQL DataBase connection is normal.{con.closed}')
+con,cur = connect_data_base()
         
 app = dash.Dash(__name__)
 # cur.execute("SELECT * FROM _2022_11_11_stock_quote ORDER BY time DESC LIMIT 60")
 # tupples = cur.fetchall()
 # df = pd.DataFrame(data=tupples, columns=['symbol', 'time', 'type', 'ask', 'ask_size','ask_exchange', 'aid', 'aid_size', 'bid_exchange', 'quote_condition', 'tape'])
-con,cur = connect_data_base()
-df = get_data('crypto_bar')
+
+df = get_data(cur=cur, data_type="crypto_bar")
 
 app.layout = html.Div([
     html.H4('Dashboard'),
@@ -58,8 +61,8 @@ def updateTable(n):
     # cur.execute("SELECT * FROM _2022_11_11_stock_quote ORDER BY time DESC LIMIT 60")
     # tupples = cur.fetchall()
     # df = pd.DataFrame(data=tupples, columns=['symbol', 'time', 'type', 'ask', 'ask_size','ask_exchange', 'aid', 'aid_size', 'bid_exchange', 'quote_condition', 'tape'])
-    ccon,cur = connect_data_base()
-    df = get_data('crypto_bar')
+    con,cur = connect_data_base()
+    df = get_data(cur=cur, data_type="crypto_bar")
     return df.to_dict('records')
 #Input("ticker", "value"))
 
@@ -71,8 +74,10 @@ def display_time_series(n):
     # tupples = cur.fetchall()
     # df = pd.DataFrame(data=tupples, columns=['symbol', 'time', 'type', 'ask', 'ask_size','ask_exchange', 'aid', 'aid_size', 'bid_exchange', 'quote_condition', 'tape']) # replace with your own data source
     con,cur = connect_data_base()
-    df = get_data('crypto_bar')
-    fig = px.line(df, x='time', y=df['close'])
+    df = get_data(cur=cur, data_type="crypto_bar")
+    
+    #fig_two = px.line(df, x='time', y=df['close'])
+    fig = go.Figure().add_candlestick(close=df['close'], high=df['high'], low=df['low'], open=df['open'], name='Crypto Chart')
     return fig
 
 if __name__ == '__main__':
