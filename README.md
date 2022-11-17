@@ -67,6 +67,16 @@ LvsS: A tool for comparing bullish and bearish money flows in historical or real
     
    ![LvsS](Data/LvsS.png)
 
+# PostgreSQL DataBase:
+
+   Real-Time Data has been automate seperated by data type:
+   
+   ![PostgreSQL1](Data/PostgreSQL1.png)
+
+   ![PostgreSQL2](Data/PostgreSQL2.png)
+   
+   ![PostgreSQL3](Data/PostgreSQL3.png)
+
 # Consclusion:
  
    Machine Learning can help with trade, but the best, for now, is to treat it as an assistant. For example, all the entry points created by the signal can be further filtered out by a machine-learning model.
