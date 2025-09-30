@@ -31,3 +31,4 @@ def api_access(type):
             return api
         except:
             raise Exception("Please configur the .env file under root directory")
+            
