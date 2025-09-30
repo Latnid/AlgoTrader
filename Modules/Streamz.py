@@ -8,6 +8,7 @@ import streamz.dataframe
 from holoviews import opts
 from holoviews.streams import Pipe, Buffer
 
+
 hv.extension('bokeh')
 pipe = Pipe(data=[])
 vector_dmap = hv.DynamicMap(hv.VectorField, streams=[pipe])
