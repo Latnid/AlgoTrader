@@ -5,9 +5,9 @@ This tool was created to assist advanced traders with mature strategies, includi
 # features
 * Realtime data collection
   
-   - RTstream : Realtime API, get the real-time stock bar from alpaca.
+   - RTstream: Realtime API, get the real-time stock bar from alpaca.
 
-   - RTdata : pull data from local PostgreSql real-time database, and return clean data frame.
+   - RTdata: pull data from local PostgreSql real-time database, and return clean data frame.
 
    - RTstock: fast way to acquire stock bars, quotes, and trades simultaneously and insert them into the local PostgreSQL real-time database.
 
